@@ -19,7 +19,7 @@ defmodule CH7Test do
 
   test "keyword list" do
     kw = [{:name, "Dave"}, {:likes, "Programming"}, {:where, "Dallas", "TX"}]
-    find_dallas = kw
+    find_dallas = List.keyfind(kw, "Dallas", 1)
     assert find_dallas == {:where, "Dallas", "TX"}
   end
 
@@ -31,11 +31,18 @@ defmodule CH7Test do
      list ++ [to]
    end
 
+   defp _span(from, to, list) do
+     _span(from+1, to, list ++ [from])
+   end
+
   @doc """
     returns the list from a list of lists with the second element == 27
   """
-  def for_location_27([_|tail]) do
+  defp for_location_27([[x, 27, y, z]| tail]) do
+    [[x, 27, y, z] | for_location_27(tail)]
+  end
+  defp for_location_27([_|tail]) do
     for_location_27(tail)
   end
-  def for_location_27([]), do: []
+  defp for_location_27([]), do: []
 end
